@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <img id="logo" src="./Images/bookstore_logo.jpg">
+    <div class="container">
+        <h1>Welcome to BOOKSTORE!</h1>
+        <p>BOOKSTORE is an online platform book browser! It helps you search books within the Amazon library. You can retrieve books based on the Author's name, the book's title, or the book's publisher. The result gives you the book ISBN number, the title of the book, the name of the author, the publication year, and the image of the cover page.</p>
+        <select id="searchType">
+            <option value="isbn">ISBN</option>
+            <option value="author">Author</option>
+            <option value="title">Title</option>
+            <option value="publisher">Publisher</option>
+        </select>
+        <input type="text" id="searchInput" placeholder="Enter your search...">
+        <button onclick="searchBooks()">Search</button>
+        <div id="result-info"></div>
+        <div id="results"></div>
+        <div id="pagination"></div>
+    </div>
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        let lastQueryParams = {};
+
+        async function searchBooks(page = 1) {
+            const searchType = document.getElementById("searchType").value;
+            const searchInput = document.getElementById("searchInput").value;
+            const resultsDiv = document.getElementById("results");
+            const resultInfo = document.getElementById("result-info");
+            const paginationDiv = document.getElementById("pagination");
+            resultsDiv.innerHTML = "Loading...";
+            paginationDiv.innerHTML = "";
+
+            let url = "https://amazon-books-data-api1.p.rapidapi.com/api/book_" + searchType;
+            let queryParams = { "limit": "10", "page": page };
+            if (searchType === "isbn") queryParams["book_id"] = searchInput;
+            else if (searchType === "author") queryParams["book_author"] = searchInput;
+            else if (searchType === "title") queryParams["title"] = searchInput;
+            else if (searchType === "publisher") queryParams["publisher"] = searchInput;
+            
+            lastQueryParams = queryParams;
+            const headers = {
+                "X-RapidAPI-Key": "0aa3021068msh775d18b3424e02fp1b6105jsnc6824f6e50fe",
+                "X-RapidAPI-Host": "amazon-books-data-api1.p.rapidapi.com"
+            };
+
+            try {
+                const response = await fetch(url + "?" + new URLSearchParams(queryParams), { headers });
+                const data = await response.json();
+                resultsDiv.innerHTML = "";
+                resultInfo.innerHTML = "";
+
+                if (data.status === "200") {
+                    resultInfo.innerHTML = `<p><strong>${data.totalBooks}</strong> books retrieved successfully!</p>`;
+                    totalPages = data.totalPages;
+                    currentPage = data.currentPage;
+
+                    data.data.forEach(book => {
+                        resultsDiv.innerHTML += `
+                            <div class="book">
+                                <h3 class="book-title">${book.book_title}</h3>
+                                <p><strong>Author:</strong> ${book.book_author}</p>
+                                <p><strong>ISBN:</strong> ${book.book_isbn}</p>
+                                <p><strong>Year:</strong> ${book.year_of_publication}</p>
+                                <img src="${book.image_url_l}" alt="Book Cover">
+                            </div>
+                        `;
+                    });
+                    
+                    if (totalPages > 1) {
+                        paginationDiv.innerHTML = `
+                            <button class="page-button" onclick="searchBooks(${currentPage - 1})" ${currentPage === 1 ? "disabled" : ""}>Previous</button>
+                            <span> Page ${currentPage} of ${totalPages} </span>
+                            <button class="page-button" onclick="searchBooks(${currentPage + 1})" ${currentPage === totalPages ? "disabled" : ""}>Next</button>
+                        `;
+                    }
+                } else {
+                    resultsDiv.innerHTML = `<p>${data.message}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p>Error fetching data. Try again later.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

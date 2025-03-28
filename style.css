@@ -1,0 +1,102 @@
+body {
+    font-family: Georgia;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+#logo {
+  width: 200px;
+  height: auto;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.container {
+    width: 60%;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #032f5e;
+    font-family: Times New Roman;
+}
+
+p {
+    color: #555;
+    font-family: Georgia;
+}
+
+select, input, button {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #0574eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #045bb8;
+}
+
+#results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.book {
+    width: 30%;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.book img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.book-title {
+    color: #043a75;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#pagination {
+    margin-top: 20px;
+}
+
+.page-button {
+    background-color: #0574eb;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.page-button:disabled {
+    background-color: #8bc2fc;
+    cursor: not-allowed;
+}
