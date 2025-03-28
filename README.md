@@ -52,7 +52,7 @@ This project leverages the **Amazon Books Data API** to fetch book information. 
 ## Setup Instructions
 ### Step 1: Clone the Repository
 ```
-git clone 
+git clone https://github.com/Gaddy01/PlayingAround_WithAPIS_Summative.git
 ```
 
 ### Step 2: Install Dependencies
@@ -73,7 +73,7 @@ No external libraries are required, as the project runs in the browser.
    ```
 1.3. Clone the repository on the server:
    ```
-   git clone 
+   git clone https://github.com/Gaddy01/PlayingAround_WithAPIS_Summative.git
    ```
 1.4. Copy the content of the index file in index.nginx-debian.html:
    ```
